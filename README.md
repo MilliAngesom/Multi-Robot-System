@@ -1,5 +1,7 @@
 # How to run the code (Specific to one robot)
 
+Clone the repo.
+
 New Package name: sphero_stage_2.
 
 ## Important Detials !!
@@ -13,6 +15,7 @@ Use main_2.py for running the main algorithm. (Handles all the boids in one file
 
 
 ## Now, you are ready to test the code!
+
 - rosrun sphero_stage_2 start.py. (To start the simulation)
 - rosrun sphero_stage_2 main_2.py (Run the main algorithm)
 
