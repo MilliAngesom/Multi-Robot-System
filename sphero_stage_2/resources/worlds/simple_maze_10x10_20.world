@@ -1,0 +1,32 @@
+include "definitions.inc"
+
+# load an environment bitmap
+floorplan
+(
+	name "simple_maze_10x10"
+	bitmap "../maps/simple_maze_10x10/simple_maze_10x10.bmp"
+	size [10 10 1]  # duzina sirina visina
+	pose [ 0 0 0 0 ]
+)
+
+# throw in robots
+sphero( pose [ -1.600 0.000 0 0.000 ] name "sphero_0" color "red")
+sphero( pose [ -1.620 0.124 0 0.000 ] name "sphero_1" color "red")
+sphero( pose [ -1.676 0.235 0 0.000 ] name "sphero_2" color "red")
+sphero( pose [ -1.765 0.324 0 0.000 ] name "sphero_3" color "red")
+sphero( pose [ -1.876 0.380 0 0.000 ] name "sphero_4" color "red")
+sphero( pose [ -2.000 0.400 0 0.000 ] name "sphero_5" color "red")
+sphero( pose [ -2.124 0.380 0 0.000 ] name "sphero_6" color "red")
+sphero( pose [ -2.235 0.324 0 0.000 ] name "sphero_7" color "red")
+sphero( pose [ -2.324 0.235 0 0.000 ] name "sphero_8" color "red")
+sphero( pose [ -2.380 0.124 0 0.000 ] name "sphero_9" color "red")
+sphero( pose [ -2.400 0.000 0 0.000 ] name "sphero_10" color "red")
+sphero( pose [ -2.380 -0.124 0 0.000 ] name "sphero_11" color "red")
+sphero( pose [ -2.324 -0.235 0 0.000 ] name "sphero_12" color "red")
+sphero( pose [ -2.235 -0.324 0 0.000 ] name "sphero_13" color "red")
+sphero( pose [ -2.124 -0.380 0 0.000 ] name "sphero_14" color "red")
+sphero( pose [ -2.000 -0.400 0 0.000 ] name "sphero_15" color "red")
+sphero( pose [ -1.876 -0.380 0 0.000 ] name "sphero_16" color "red")
+sphero( pose [ -1.765 -0.324 0 0.000 ] name "sphero_17" color "red")
+sphero( pose [ -1.676 -0.235 0 0.000 ] name "sphero_18" color "red")
+sphero( pose [ -1.620 -0.124 0 0.000 ] name "sphero_19" color "red")
