@@ -320,6 +320,6 @@ CATKIN_IGNORE
 
 sphero_stage_2/.vscode
 sphero_stage_2/example.yml
-sphero_stage_2/cfg
+sphero_stage_2/src/mrs_part_02/prac.py
 # sphero_stage_2/src/mrs_part_02/rviz_utils/__pycache__
 *__pycache__*

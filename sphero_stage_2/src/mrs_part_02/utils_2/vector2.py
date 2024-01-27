@@ -242,8 +242,6 @@ def get_agent_position_list(agent):
 #     v1.upper_limit(2)
 #     print(f"Applying upper limit of 2 to v1: {v1.__repr__()}")
 
-#     v1.x, v1.y = 0.1, 0.5
-
 #     # Demonstrate lower limit
 #     v1.limit_lower(1)
 #     print(f"Applying lower limit of 1 to v1: {v1.__repr__()}")

@@ -26,52 +26,95 @@ class Boid(object):
 
     # use twist type for velocity and pose type message for position
 
-    def __init__(self, initial_velocity_x, initial_velocity_y, max_speed_mag, slowing_radius): # , wait_count, start_count, frequency
-        """Create an empty boid and update parameters."""
-        self.position = Vector2()
-        self.velocity = Vector2()
+    def __init__(self, adj_mat, edge_values, id, position_error_list, pos_diff_list, target_lists,
+                 max_speed_mag, slowing_radius, search_radius): # , wait_count, start_count, frequency
+        """Create an boid with empty properties and update parameters."""
+        self.position_v         = Vector2()
+        self.cur_vel_v          = Vector2()
+        self.adj_mat            = adj_mat
+        self.id                 = id 
+        self.edges              = edge_values # nodes to which current agent is connected like [2, 3]
         
-        self.max_speed_mag = max_speed_mag #
+
+        self.target_list           = target_lists
+        self.position_error_list   = position_error_list
+        self.pos_diff_list         = pos_diff_list     # distance between agent and target
+ 
+
+        self.max_speed_mag  = max_speed_mag  #
         self.slowing_radius = slowing_radius #
-        self.target_reached = True
+        self.search_radius  = search_radius
 
-        # Set initial velocity
-        # self.initial_velocity = Twist()
-        # self.initial_velocity.linear.x = initial_velocity_x
-        # self.initial_velocity.linear.y = initial_velocity_y
+        self.target_reached = False           # So, they dont move until they get a target  
     
-    def arrive(self, agent_msg, target, target_reached):
 
-        target_v = Vector2(target[0], target[1])
-        desired_velocity_v = Vector2()
-        self.position_v = get_agent_position(agent_msg) # agent position
-        # self.position = self.position_v
+        # self.des_vel_v          = Vector2()
 
-        target_offset_v = target_v - self.position_v
-        distance = target_offset_v.norm() 
-        
-        ramped_speed = (distance / self.slowing_radius)
-        
-        if distance < 0.01:
-            target_reached = True
-            return Vector2(), target_reached
+    def arrive(self): # update the current velocity of the agent
+
+        if all(pos_diff < 0.13 for pos_diff in self.pos_diff_list):
+            self.target_reached = True
+            self.cur_vel_v.set_mag(0)
         else:
-            desired_velocity_v.x = (ramped_speed / distance) * target_offset_v.x
-            desired_velocity_v.y = (ramped_speed / distance) * target_offset_v.y
+            for i in range(len(self.edges)): # can skip adding adj_mat as well
+                ramped_speed        = (self.pos_diff_list[i] / self.slowing_radius)
+                self.cur_vel_v.x    += self.adj_mat[self.id, self.edges[i]] * (ramped_speed / self.pos_diff_list[i]) * self.position_error_list[i].x
+                self.cur_vel_v.y    += self.adj_mat[self.id, self.edges[i]] * (ramped_speed / self.pos_diff_list[i]) * self.position_error_list[i].y
+
+
+            if self.cur_vel_v.norm() > self.max_speed_mag:
+                self.cur_vel_v.set_mag(self.max_speed_mag)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+            # self.cur_vel_v.x = (ramped_speed / self.pos_diff) * self.position_error_v.x
+            # self.cur_vel_v.y = (ramped_speed / self.pos_diff) * self.position_error_v.y
             
-            if target_offset_v.norm() > self.max_speed_mag:
-                desired_velocity_v.set_mag(self.max_speed_mag)
 
-            return desired_velocity_v, target_reached
+            # return desired_velocity_v, self.target_reached
         
-    def get_cmd_vel(self, agent_msg, target, target_reached):
+    # def get_cmd_vel(self, agent_msg, target, target_reached):
 
-        self.steering_force_v, new_target_reached = self.arrive(agent_msg, target, target_reached)
+    #     self.steering_force_v, new_target_reached = self.arrive(agent_msg, target, target_reached)
 
-        cmd = Twist()
-        cmd.linear.x = self.steering_force_v.x
-        cmd.linear.y = self.steering_force_v.y  # Adjust the angular velocity as needed
-        return cmd, self.steering_force_v, new_target_reached
+    #     cmd = Twist()
+    #     cmd.linear.x = self.steering_force_v.x
+    #     cmd.linear.y = self.steering_force_v.y  # Adjust the angular velocity as needed
+    #     return cmd, self.steering_force_v, new_target_reached
 
         
 

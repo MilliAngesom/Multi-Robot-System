@@ -10,8 +10,8 @@ import rospy
 import rospkg
 import random
 import math
-
-
+import subprocess
+import time
 
 def distribute_circle(k, n, center_x=0, center_y=0, radius=1):
     x = radius * math.cos(k / n * 2 * math.pi) + center_x
@@ -82,8 +82,18 @@ def create_files(resources, config):
 
     return True
 
+# Function to start ROS master
+def start_roscore():
+    # Starting roscore
+    subprocess.Popen("roscore")
+    print("Starting roscore...")
+
+    # Wait a bit to ensure roscore has started
+    time.sleep(1)
 
 def main():
+    # Start roscore
+    
     start_rviz = 'true' if '--rviz' in sys.argv else 'false'
 
     # Set up launch variables. These are hard-coded and they shouldn't be changed.
@@ -124,6 +134,8 @@ def main():
         launch.shutdown()
 
 if __name__ == '__main__':
+    start_roscore()
+
     rospy.init_node('stage_launcher', anonymous=True)
 
     print("\033[36m \nInitialized launcher node. Starting launch process. \033[0m")
