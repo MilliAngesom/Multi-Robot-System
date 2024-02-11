@@ -92,7 +92,8 @@ class Robot_move:
         self.edges    = {}
         self.edges[0] = [1]  # self.edges[1] = [2, 3]: 1 listens to 2 and 3
         self.edges[1] = [2]     # self.edges[2] = [0]    : 2 listens to no one
-        self.edges[2] = [None]  # self.edges[3] = [1, 3]: 3 listens to 1 and 3
+        self.edges[2] = [3]  # self.edges[3] = [1, 3]: 3 listens to 1 and 3
+        self.edges[3] = [0]  # self.edges[3] = [1, 3]: 3 listens to 1 and 3
 
         """ Build adjacency matrix """
         for key, values in self.edges.items():

@@ -10,6 +10,6 @@ floorplan
 )
 
 # throw in robots
-sphero( pose [ 0.000 -1.000 0 0.000 ] name "sphero_0" color "red")
-sphero( pose [ 0.000 0.000 0 0.000 ] name "sphero_1" color "red")
-sphero( pose [ 0.000 1.000 0 0.000 ] name "sphero_2" color "red")
+sphero( pose [ -1.300 0.000 0 0.000 ] name "sphero_0" color "red")
+sphero( pose [ -3.100 1.039 0 0.000 ] name "sphero_1" color "red")
+sphero( pose [ -3.100 -1.039 0 0.000 ] name "sphero_2" color "red")

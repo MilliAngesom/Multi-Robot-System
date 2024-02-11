@@ -52,7 +52,7 @@ class Boid(object):
 
     def arrive(self): # update the current velocity of the agent
 
-        if all(pos_diff < 0.13 for pos_diff in self.pos_diff_list):
+        if all(pos_diff < 0.165 for pos_diff in self.pos_diff_list):
             self.target_reached = True
             self.cur_vel_v.set_mag(0)
         else:

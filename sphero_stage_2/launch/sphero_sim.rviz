@@ -6,7 +6,20 @@ Panels:
       Expanded:
         - /Global Options1
         - /Status1
+        - /Odometry2/Covariance1
+        - /Odometry2/Covariance1/Position1
+        - /Odometry2/Covariance1/Orientation1
+        - /Marker1/Namespaces1
         - /RobotModel2/Links1
+        - /Odometry8/Covariance1/Position1
+        - /Odometry9/Shape1
+        - /Odometry9/Covariance1
+        - /Odometry9/Covariance1/Position1
+        - /Odometry10/Shape1
+        - /Odometry10/Covariance1
+        - /Odometry10/Covariance1/Position1
+        - /Odometry11/Covariance1
+        - /Odometry11/Covariance1/Position1
       Splitter Ratio: 0.6094182729721069
     Tree Height: 657
   - Class: rviz/Selection
@@ -175,34 +188,44 @@ Visualization Manager:
     - Alpha: 1
       Class: rviz/RobotModel
       Collision Enabled: false
-      Enabled: false
+      Enabled: true
       Links:
         All Links Enabled: true
         Expand Joint Details: false
         Expand Link Details: false
         Expand Tree: false
         Link Tree Style: Links in Alphabetic Order
+        base_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
       Name: RobotModel2
       Robot Description: robot_description
       TF Prefix: robot_2
       Update Interval: 0
-      Value: false
+      Value: true
       Visual Enabled: true
     - Alpha: 1
       Class: rviz/RobotModel
       Collision Enabled: false
-      Enabled: false
+      Enabled: true
       Links:
         All Links Enabled: true
         Expand Joint Details: false
         Expand Link Details: false
         Expand Tree: false
         Link Tree Style: Links in Alphabetic Order
+        base_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
       Name: RobotModel3
       Robot Description: robot_description
       TF Prefix: robot_3
       Update Interval: 0
-      Value: false
+      Value: true
       Visual Enabled: true
     - Alpha: 1
       Class: rviz/RobotModel
@@ -316,9 +339,9 @@ Visualization Manager:
         Position:
           Alpha: 0.30000001192092896
           Color: 204; 51; 204
-          Scale: 1
+          Scale: 10
           Value: true
-        Value: false
+        Value: true
       Enabled: true
       Keep: 1
       Name: Odometry
@@ -533,7 +556,7 @@ Visualization Manager:
       Marker Topic: /region_/robot_2/odom
       Name: Marker
       Namespaces:
-        {}
+        semicircle: true
       Queue Size: 100
       Value: true
     - Class: rviz/Marker
@@ -541,25 +564,25 @@ Visualization Manager:
       Marker Topic: /region_/robot_3/odom
       Name: Marker
       Namespaces:
-        {}
+        semicircle: true
       Queue Size: 100
       Value: true
     - Class: rviz/Marker
-      Enabled: true
+      Enabled: false
       Marker Topic: /region_/robot_4/odom
       Name: Marker
       Namespaces:
         {}
       Queue Size: 100
-      Value: true
+      Value: false
     - Class: rviz/Marker
-      Enabled: true
+      Enabled: false
       Marker Topic: /region_/robot_5/odom
       Name: Marker
       Namespaces:
         {}
       Queue Size: 100
-      Value: true
+      Value: false
     - Alpha: 1
       Arrow Length: 0.20000000298023224
       Axes Length: 0.30000001192092896
@@ -578,13 +601,13 @@ Visualization Manager:
       Unreliable: false
       Value: true
     - Class: rviz/Marker
-      Enabled: true
+      Enabled: false
       Marker Topic: /velocity_arrow_marker
       Name: Marker
       Namespaces:
         {}
       Queue Size: 100
-      Value: true
+      Value: false
     - Alpha: 1
       Class: rviz/RobotModel
       Collision Enabled: false
@@ -710,7 +733,7 @@ Visualization Manager:
       Marker Topic: /0velocity_arrow_marker
       Name: Marker
       Namespaces:
-        {}
+        velocity_arrow: true
       Queue Size: 100
       Value: true
     - Class: rviz/Marker
@@ -718,7 +741,7 @@ Visualization Manager:
       Marker Topic: /1velocity_arrow_marker
       Name: Marker
       Namespaces:
-        {}
+        velocity_arrow: true
       Queue Size: 100
       Value: true
     - Class: rviz/Marker
@@ -726,7 +749,7 @@ Visualization Manager:
       Marker Topic: /2velocity_arrow_marker
       Name: Marker
       Namespaces:
-        {}
+        velocity_arrow: true
       Queue Size: 100
       Value: true
     - Class: rviz/Marker
@@ -782,9 +805,149 @@ Visualization Manager:
       Marker Topic: /3velocity_arrow_marker
       Name: Marker
       Namespaces:
-        {}
+        velocity_arrow: true
       Queue Size: 100
       Value: true
+    - Angle Tolerance: 0.05000000074505806
+      Class: rviz/Odometry
+      Covariance:
+        Orientation:
+          Alpha: 0.5
+          Color: 255; 255; 127
+          Color Style: Unique
+          Frame: Local
+          Offset: 1
+          Scale: 1
+          Value: true
+        Position:
+          Alpha: 1
+          Color: 239; 41; 41
+          Scale: 0.07999999821186066
+          Value: true
+        Value: true
+      Enabled: false
+      Keep: 1000
+      Name: Odometry
+      Position Tolerance: 0.05000000074505806
+      Queue Size: 100
+      Shape:
+        Alpha: 0
+        Axes Length: 1
+        Axes Radius: 0.10000000149011612
+        Color: 255; 25; 0
+        Head Length: 0.30000001192092896
+        Head Radius: 0.10000000149011612
+        Shaft Length: 1
+        Shaft Radius: 0.05000000074505806
+        Value: Arrow
+      Topic: /dummy_/robot_0/odom
+      Unreliable: false
+      Value: false
+    - Angle Tolerance: 0.05000000074505806
+      Class: rviz/Odometry
+      Covariance:
+        Orientation:
+          Alpha: 0.5
+          Color: 255; 255; 127
+          Color Style: Unique
+          Frame: Local
+          Offset: 1
+          Scale: 1
+          Value: true
+        Position:
+          Alpha: 1
+          Color: 239; 41; 41
+          Scale: 0.07999999821186066
+          Value: true
+        Value: true
+      Enabled: false
+      Keep: 1000
+      Name: Odometry
+      Position Tolerance: 0.05000000074505806
+      Queue Size: 100
+      Shape:
+        Alpha: 0
+        Axes Length: 1
+        Axes Radius: 0.10000000149011612
+        Color: 255; 25; 0
+        Head Length: 0.30000001192092896
+        Head Radius: 0.10000000149011612
+        Shaft Length: 1
+        Shaft Radius: 0.05000000074505806
+        Value: Arrow
+      Topic: /dummy_/robot_1/odom
+      Unreliable: false
+      Value: false
+    - Angle Tolerance: 0.05000000074505806
+      Class: rviz/Odometry
+      Covariance:
+        Orientation:
+          Alpha: 0.5
+          Color: 255; 255; 127
+          Color Style: Unique
+          Frame: Local
+          Offset: 1
+          Scale: 1
+          Value: true
+        Position:
+          Alpha: 1
+          Color: 239; 41; 41
+          Scale: 0.07999999821186066
+          Value: true
+        Value: true
+      Enabled: false
+      Keep: 1000
+      Name: Odometry
+      Position Tolerance: 0.05000000074505806
+      Queue Size: 100
+      Shape:
+        Alpha: 0
+        Axes Length: 1
+        Axes Radius: 0.10000000149011612
+        Color: 255; 25; 0
+        Head Length: 0.30000001192092896
+        Head Radius: 0.10000000149011612
+        Shaft Length: 1
+        Shaft Radius: 0.05000000074505806
+        Value: Arrow
+      Topic: /dummy_/robot_2/odom
+      Unreliable: false
+      Value: false
+    - Angle Tolerance: 0.05000000074505806
+      Class: rviz/Odometry
+      Covariance:
+        Orientation:
+          Alpha: 0.5
+          Color: 255; 255; 127
+          Color Style: Unique
+          Frame: Local
+          Offset: 1
+          Scale: 1
+          Value: true
+        Position:
+          Alpha: 1
+          Color: 239; 41; 41
+          Scale: 0.07999999821186066
+          Value: true
+        Value: true
+      Enabled: false
+      Keep: 1000
+      Name: Odometry
+      Position Tolerance: 0.05000000074505806
+      Queue Size: 100
+      Shape:
+        Alpha: 0
+        Axes Length: 1
+        Axes Radius: 0.10000000149011612
+        Color: 255; 25; 0
+        Head Length: 0.30000001192092896
+        Head Radius: 0.10000000149011612
+        Shaft Length: 1
+        Shaft Radius: 0.05000000074505806
+        Value: Arrow
+      Topic: /dummy_/robot_3/odom
+      Unreliable: false
+      Value: false
   Enabled: true
   Global Options:
     Background Color: 49; 180; 193
@@ -813,7 +976,7 @@ Visualization Manager:
   Views:
     Current:
       Class: rviz/Orbit
-      Distance: 12.37124252319336
+      Distance: 11.844465255737305
       Enable Stereo Rendering:
         Stereo Eye Separation: 0.05999999865889549
         Stereo Focal Distance: 1

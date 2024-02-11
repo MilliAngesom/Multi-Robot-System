@@ -200,7 +200,7 @@ def get_agent_position_list(agent):
 
 # if __name__ == "__main__":
 #     # Create two vector instances
-#     v1 = Vector2(3, 4)
+    # v1 = Vector2(-0.6, 0)
 #     v2 = Vector2(1, 2)
 
 #     # Demonstrate addition
@@ -216,7 +216,7 @@ def get_agent_position_list(agent):
 #     print(f"Multiplication by scalar: v1 * 3 = {v6.x, v3.y}")
 
 #     # Demonstrate norm
-#     print(f"Norm of v1: {v1.norm()}")
+    # print(f"Norm of v1: {v1.norm()}")
 
 #     # Demonstrate angle
 #     print(f"Angle of v1: {v1.angle()} in degrees")

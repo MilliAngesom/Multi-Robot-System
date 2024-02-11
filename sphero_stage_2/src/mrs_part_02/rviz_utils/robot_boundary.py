@@ -6,14 +6,25 @@ from visualization_msgs.msg import Marker
 from geometry_msgs.msg import Point
 import math
 from tf.transformations import euler_from_quaternion
+from std_msgs.msg import Float32
+
+from dynamic_reconfigure.server import Server
+from sphero_stage_2.cfg import fixedConfig
+
 
 class RobotPublisher:
     def __init__(self):
         rospy.init_node('robot_publisher', anonymous=True)
+        self.search_radius = 0.0
         self.odom_publishers = {}
         self.marker_publishers = {}
         self.num_of_robots = rospy.get_param("/num_of_robots")
+        self.radius_callback = rospy.Subscriber("search_radius", Float32, self.read_radius_callback)
         [rospy.Subscriber("robot_{}/odom".format(i), Odometry, self.odom_callback) for i in range(self.num_of_robots)]
+
+    def read_radius_callback(self, radius_msg):
+        self.search_radius = radius_msg.data
+
 
     def odom_callback(self, odom_msg):
         frame_id = odom_msg.header.frame_id
@@ -36,12 +47,12 @@ class RobotPublisher:
         odom.pose.pose.orientation.z = odom_msg.pose.pose.orientation.z
         odom.pose.pose.orientation.w = odom_msg.pose.pose.orientation.w
 
-        odom.pose.covariance = [1.0, 0, 0.0, 0.0, 0.0, 0,
-                                0, 1.0, 0.0, 0.0, 0.0, 0.0,  
+        odom.pose.covariance = [self.search_radius, 0.0, 0.0, 0.0, 0.0, 0.0,
+                                0.0, self.search_radius, 0.0, 0.0, 0.0, 0.0,  
                                 0.0, 0.0, 0.0, 0.0, 0.0, 0.0,    
                                 0.0, 0.0, 0.0, 0.0, 0.0, 0.0,  
                                 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 
-                                0, 0, 0.0, 0.0, 0.0, 0] 
+                                0.0, 0.0, 0.0, 0.0, 0.0, 0.0] 
 
         self.odom_publishers[frame_id].publish(odom)
 
@@ -62,7 +73,7 @@ class RobotPublisher:
         marker.color.b = 0.0
         marker.color.a = 1.0  # Alpha (transparency)
 
-        radius = 0.4  # Set your desired radius here
+        radius = self.search_radius  # Set your desired radius here
         num_points = 50  # Number of points to create the semicircle
         max_angle = 2.7  # Maximum angle in radians
         min_angle = -max_angle  # Minimum angle in radians
@@ -99,9 +110,18 @@ class RobotPublisher:
         roll, pitch, yaw = euler_from_quaternion(quaternion)
         return yaw
 
+    def param_callback(self, config, level):
+
+            # other params
+            self.search_radius      = config.search_radius
+            print("radius: ", config.search_radius)
+
+            return config
+    
 if __name__ == '__main__':
     try:
-        RobotPublisher()
+        robot = RobotPublisher()
+        srv = Server(fixedConfig, robot.param_callback)
         rospy.spin()
     except rospy.ROSInterruptException:
         pass

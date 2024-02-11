@@ -323,3 +323,17 @@ sphero_stage_2/example.yml
 sphero_stage_2/src/mrs_part_02/prac.py
 # sphero_stage_2/src/mrs_part_02/rviz_utils/__pycache__
 *__pycache__*
+
+sphero_stage_2/src/mrs_part_02/utils_2/boid_2_con.py
+sphero_stage_2/src/mrs_part_02/utils_2/boid_2_milli.py
+sphero_stage_2/src/mrs_part_02/utils_2/boid_2_ob_line_perfect.py
+sphero_stage_2/src/mrs_part_02/utils_2/boid_2_ob.py
+
+
+sphero_stage_2/src/mrs_part_02/main_2_con.py
+sphero_stage_2/src/mrs_part_02/main_2_milli.py
+sphero_stage_2/src/mrs_part_02/main_2_ob_line_perfect.py
+sphero_stage_2/src/mrs_part_02/main_2_ob_copy.py
+sphero_stage_2/src/mrs_part_02/main_2_ob.py
+sphero_stage_2/src/mrs_part_02/main_switching_Gn_milli.py
+

@@ -15,7 +15,7 @@ find_package(catkin REQUIRED COMPONENTS
  
 generate_dynamic_reconfigure_options(
   cfg/weight_param.cfg
-  cfg/obstacle_avoidance_2.cfg
+  cfg/fixed.cfg
 )
 
 ## System dependencies are found with CMake's conventions
