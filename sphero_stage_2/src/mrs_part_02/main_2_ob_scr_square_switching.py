@@ -29,7 +29,6 @@ class Robot_move:
         print("New goal received: ({}, {})".format(goal.pose.position.x, goal.pose.position.y))
         self.target_received = True
         self.nav_flag = True
-        # self.stub_target = [goal.pose.position.x, goal.pose.position.y]
         self.stub_target.x = goal.pose.position.x
         self.stub_target.y = goal.pose.position.y
         self.target_m = Vector2(goal.pose.position.x, goal.pose.position.y)
@@ -55,12 +54,7 @@ class Robot_move:
     def update_param(self, agent_msg, agent, boids):
 
         agent.position_v                    = get_agent_position(agent_msg) # current position of the agent
-        # agent.target_list                   = [boids[value].position_v for value in agent.edges]
-        agent.target_list                   = [self.target_m if value is None else boids[value].position_v for value in agent.edges]               
-        # if agent.edges != [None]:
-        #     for value in agent.edges:
-        #             print('leader', boids[value].position_v.x, boids[value].position_v.y)
-        # agent.position_error_list           = [agent.target_list[i]-agent.position_v for i in range(len(agent.edges))]
+        agent.target_list                   = [self.target_m if value is None else boids[value].position_v for value in agent.edges]     
         agent.position_error_list           = [agent.target_list[i]-agent.position_v - agent.separation_dist[i] for i in range(len(agent.edges))]
         agent.pos_diff_list                 = [agent.position_error_list[i].norm() for i in range(len(agent.edges))]
         agent.arrive()                      # update the current velocity of the agent
@@ -75,11 +69,9 @@ class Robot_move:
         if Leader:
             start_list = [agent.position_v.x, agent.position_v.y]
             total_vel_array = np.array([Total_velocity_list[0], Total_velocity_list[1]])
-            # obstacle_centroids_points_list = [[1.0, 1.5], [2.0, 2.5]], agent_pos_list = [2.5, 0.2]
             obstacle_centroids_points_list = agent.find_cluster_centroid_infront(msg, start_list, total_vel_array, cylinder_length)
 
-            # if (not obstacle_centroids_points_list) and self.nav_flag:
-            #     repulsive_velocity_v_inside_func = Vector2()
+
             if (not obstacle_centroids_points_list):
                 repulsive_velocity_v_inside_func = Vector2()  
 
@@ -88,32 +80,13 @@ class Robot_move:
                 repulsive_velocity_v_inside_func, self.CW = agent.get_desired_repulsive_vel(msg, total_vel_array, self.CW, obstacle_centroids_points_list)
                 if self.CW == 30:
                     self.CW = 0
-            # else: 
-            #     repulsive_velocity_v_inside_func.x, repulsive_velocity_v_inside_func.y = total_vel_array[0], total_vel_array[1]
-        # else: 
-        #     start_list = [agent.position_v.x, agent.position_v.y]
-        #     total_vel_array = np.array([Total_velocity_list[0], Total_velocity_list[1]])
-        #     # obstacle_centroids_points_list = [[1.0, 1.5], [2.0, 2.5]], agent_pos_list = [2.5, 0.2]
-        #     obstacle_centroids_points_list = agent.find_cluster_centroid_infront(msg, start_list, total_vel_array)
-            
-        #     if (not obstacle_centroids_points_list):
-        #         repulsive_velocity_v_inside_func = Vector2()
-            
-        #     elif obstacle_centroids_points_list: 
-        #         self.nav_flag = False
-        #         repulsive_velocity_v_inside_func, self.CW = agent.get_desired_repulsive_vel(msg, total_vel_array, self.CW, obstacle_centroids_points_list)
-        #         if self.CW == 30:
-        #             self.CW = 0
+
         if repulsive_velocity_v_inside_func.x != 0.0 or repulsive_velocity_v_inside_func.y != 0.0:
             repulsive_velocity_v_inside_func.set_mag(self.max_repul_speed)
         return repulsive_velocity_v_inside_func
 
     def odom_callback(self, msg):
 
-        # if self.count != 10: 
-        #     self.count += 1
-        # else:
-        #     self.count = 1
 
         frame_id = msg.header.frame_id 
         id = frame_id[7]
@@ -131,7 +104,6 @@ class Robot_move:
             self.agent.edges=[]
         for agent in self.agents:
             if self.calculate_distance(self.agent.position_v, agent.position_v)<= self.search_radius:
-                # if self.agent.lookup[agent.id]: 
                 if self.adj_mat[self.agent.id, agent.id]:
                     self.agent.edges.append(agent.id)
 
@@ -140,31 +112,17 @@ class Robot_move:
 
                     if self.nav_flag:
                         self.Leader_vel_final = self.update_param(msg, self.agent, self.agents)
-                        # _, self.nav_velocity_v = self.agent.get_cmd_vel(msg, self.targetss)
                         self.Leader_vel_list = [float(self.Leader_vel_final.x), float(self.Leader_vel_final.y)]
-                        # print('nav', round(self.Leader_vel_list[0], 3), round(self.Leader_vel_list[1], 3))
                     
                     leader_repel_vel = self.repulsive_vector_fn(msg, self.agent, self.Leader_vel_list, self.cylinder_length, Leader=True) # if no obstacle, then  zeo
-                    # print('leader_repel_vel', round(leader_repel_vel.x, 2), round(leader_repel_vel.y, 2))
-                    # self.Leader_vel_final = leader_repel_vel
-                    # leader_repel_vel.set_mag(self.max_speed)
+
                     if leader_repel_vel.x != 0.0 or leader_repel_vel.y != 0.0:
                         print('obstacle infront of the leader')
                         self.repul_prev_v = leader_repel_vel
 
-                        # self.send_repel_vel = True
-                        # print('v_c1', leader_repel_vel.x, leader_repel_vel.y)
-                        # print('v_c2', self.repulsive_velocity_v_leader_previous.x, self.repulsive_velocity_v_leader_previous.y)
-                        # self.Leader_vel_final = leader_repel_vel
-                        # self.send_repel_vel = False
 
-                    # if self.nav_flag:
-                    #     print('flage true')
-                    #     self.Total_velocity = self.nav_weight * self.nav_velocity_v + self.repul_weight * self.repul_vel 
-                    # else: 
                     if not self.nav_flag:   
                         self.Leader_vel_final = self.repul_prev_v
-                    # print('final_lead', round(self.Leader_vel_final.x, 2), round(self.Leader_vel_final.y, 2))
                     
                     self.Leader_vel_list = [float(self.Leader_vel_final.x), float(self.Leader_vel_final.y)]
                     self.send_velocity(self.frame_id_leader, self.Leader_vel_final)
@@ -185,7 +143,6 @@ class Robot_move:
             if self.edges[agent_local_1.id] != []:
                 agent_vel_1 = self.update_param(msg, agent_local_1, self.agents)
                 self.a_final_vel_1 = [float(agent_vel_1.x), float(agent_vel_1.y)]
-                # print('follo', round(self.a_final_vel[0], 2), round(self.a_final_vel[1], 2))
 
                 if self.a_final_vel_1[0] != 0.0 or self.a_final_vel_1[1] != 0.0:
                     if self.count_1_f == 10:
@@ -197,12 +154,7 @@ class Robot_move:
                         self.count_1_f = 1
                     else: 
                         self.count_1_f += 1
-                    # self.Leader_vel_final = leader_repel_vel
-                # print('nav', round(self.agent_vel.x, 3), round(self.agent_vel.y, 3))
-                # self.Total_velocity_other = self.nav_weight * agent_vel
-                # self.Total_velocity_other = self.nav_weight * self.agent.cur_vel_v
                 self.send_velocity(frame_local_1, agent_vel_1)
-                # self.send_velocity(frame_local, self.Total_velocity_other)
 
         if self.agent.id == 2: # if not a stub born
             frame_local_2 = frame_id
@@ -214,7 +166,6 @@ class Robot_move:
             else: 
                 self.edges[agent_local_2.id] = []
                 self.send_velocity(frame_local_2, Vector2())
-                # print('target', self.agent.target_list)
             if self.edges[agent_local_2.id] != []:
 
                 agent_vel_2 = self.update_param(msg, agent_local_2, self.agents)
@@ -256,7 +207,6 @@ class Robot_move:
         """Callback function that is called when a message is received on the `/map` topic."""
 
         map_data = np.array([msg.data])
-        # map_data = map_data.reshape(200, 200)
         map_data = np.reshape(map_data, (200, 200), 'F')
         self.new_map_data = rotate(map_data, 90)
         self.map_subscriber.unregister()
@@ -349,19 +299,7 @@ class Robot_move:
                             self.max_speed, self.max_speed_leader, self.slowing_radius, self.slowing_radius_other, self.search_radius, self.separation_dist[id]) for id in range(self.num_of_robots)]
 
         self.stub_target = Vector2(1, 0)
-        # for key, values in self.edges.items():
-        #     if values == [None]:
-                # self.target_reached_list[key]       = True
-                # self.target_lists[key]              = [None]
-                # self.target_lists[key]              = self.stub_target
-                # self.position_error_list[key]       = [0]
-                # self.pos_diff_list[key]             = [0]
-            # else: 
-            #     self.target_lists[key]              = [self.agents[value].position_v for value in values]
 
-        # self.start_time = 0.0
-        # self.repulsive_force_duration = 1.0 #0.5
-        # self.stop_repul = False
         self.CW = 0
         self.count = 1
         self.count_1_f = 1
@@ -440,40 +378,3 @@ if __name__ == '__main__':
         pass
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-# def param_callback(self, config, level):
-
-    #     # other params
-    #     self.max_speed = config.max_speed
-    #     self.slowing_radius = config.slowing_radius
-    #     # self.search_radius = config.search_radius
-
-    #     # weights param
-    #     self.nav_weight = config.nav_weight
-    #     self.rep_weight = config.rep_weight
-
-    #     return config
-
-# def read_map_callback_2(self, msg):
-    #     """Callback function that is called when a message is received on the `/map` topic."""
-
-    #     map_data = np.array([msg.data])
-    #     # map_data = map_data.reshape(200, 200)
-    #     map_data = np.reshape(map_data, (200, 200), 'F')
-    #     self.new_map_data = rotate(map_data, 90)
-    #     self.map_subscriber.unregister()
