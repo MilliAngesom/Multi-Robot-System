@@ -141,9 +141,7 @@ class Robot_move:
         [rospy.Subscriber("robot_{}/odom".format(i), Odometry, self.odom_callback) for i in range(self.num_of_robots)]
 
 
-        
-
-
+    
 if __name__ == '__main__':
     try:
         rospy.init_node('consensus_mrs_2')
@@ -155,5 +153,3 @@ if __name__ == '__main__':
 
     except rospy.ROSInterruptException:
         pass
-
-
