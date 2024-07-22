@@ -363,7 +363,6 @@ class Robot_move:
         
 
 
-
 if __name__ == '__main__':
     try:
         rospy.init_node('switching_consensus_mrs_2')
